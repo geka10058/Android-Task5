@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Image Search App</string>
+    <string name="app_name">Cat Search App</string>
     <string name="result_not_loaded">Results could not be loaded</string>
     <string name="retry">Retry</string>
     <string name="description">Description</string>
     <string name="save_image">Save image</string>
     <string name="image_uploaded">Image has been uploaded</string>
+    <string name="result_not_found">No results found for this query</string>
 </resources>

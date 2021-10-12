@@ -15,7 +15,7 @@ class CatRepository @Inject constructor(private val catApi: CatApi) {
         Pager(
             config = PagingConfig(
                 pageSize = 20,
-                maxSize = 100,
+                maxSize = 60,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { CatPagingSource(catApi) }

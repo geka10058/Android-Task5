@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Environment.DIRECTORY_PICTURES
@@ -69,15 +70,21 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 .into(imageView)
 
             textViewDescription.text = photo.id
-
             buttonSave.setText(R.string.save_image)
             buttonSave.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) { gallerySaveImage(photo.url) }
+
+                /*viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) { gallerySaveImage(photo.url) }
                     Toast.makeText(
                         requireContext(),
                         R.string.image_uploaded,
                         Toast.LENGTH_LONG
-                    ).show()
+                    ).show()*/
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P || checkWritePermission()) {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                        gallerySaveImage(photo.url)
+                    }
+                }
 
             }
         }

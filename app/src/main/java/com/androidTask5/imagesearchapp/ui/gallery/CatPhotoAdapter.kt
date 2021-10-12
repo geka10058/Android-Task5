@@ -55,10 +55,8 @@ class CatPhotoAdapter (private val listener:OnItemClickListener) :
                     .error(R.drawable.ic_error)
                     .into(imageView)
 
-                //textViewUserName.text = photo.breeds.name
                 textViewName.text = photo.id
                 Log.d("AppDebug", "url: ${photo.url}")
-                //Log.d("AppDebug", "ID: ${photo.breeds.name}")
             }
         }
     }

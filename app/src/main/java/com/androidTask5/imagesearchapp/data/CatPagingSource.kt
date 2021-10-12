@@ -11,16 +11,13 @@ private const val CATS_ORDER = "ASC"
 
 class CatPagingSource(
     private val catApi: CatApi
-    //private val query: String
 ) : PagingSource<Int, CatPhoto>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CatPhoto> {
         val position = params.key ?: UNSPLASH_STARTING_PAGE_INDEX
 
         return try {
-        //val response = catApi.searchPhotos(query, position, params.loadSize)
         val response = catApi.searchPhotos(CATS_ORDER,position, params.loadSize)
-        //val photos = response.results
             Log.d("AppDebug", "$response")
 
             LoadResult.Page(
