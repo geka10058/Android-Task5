@@ -12,7 +12,7 @@ import com.androidTask5.imagesearchapp.R
 import com.androidTask5.imagesearchapp.data.CatPhoto
 import com.androidTask5.imagesearchapp.databinding.ItemCatPhotoBinding
 
-class CatPhotoAdapter :
+class CatPhotoAdapter (private val listener:OnItemClickListener) :
     PagingDataAdapter<CatPhoto, CatPhotoAdapter.PhotoViewHolder>(PHOTO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -30,19 +30,24 @@ class CatPhotoAdapter :
         }
     }
 
-    class PhotoViewHolder(private val binding: ItemCatPhotoBinding) :
+    inner class PhotoViewHolder(private val binding: ItemCatPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener{
+                val position = bindingAdapterPosition
+                if(position != RecyclerView.NO_POSITION){
+                    val item = getItem(position)
+                    if(item !=null) {
+                        listener.onItemClicked(item)
+                    }
+                }
+
+            }
+        }
 
         fun bind(photo: CatPhoto) {
             binding.apply {
-                /*Glide.with(itemView)
-                    .load(photo.urls.regular)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_error)
-                    .into(imageView)
-
-                textViewUserName.text = photo.user.username*/
                 Glide.with(itemView)
                     .load(photo.url)
                     .centerCrop()
@@ -56,6 +61,10 @@ class CatPhotoAdapter :
                 //Log.d("AppDebug", "ID: ${photo.breeds.name}")
             }
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClicked(photo: CatPhoto)
     }
 
     companion object {

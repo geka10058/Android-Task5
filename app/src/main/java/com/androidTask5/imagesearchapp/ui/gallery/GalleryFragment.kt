@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.androidTask5.imagesearchapp.R
+import com.androidTask5.imagesearchapp.data.CatPhoto
 import com.androidTask5.imagesearchapp.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery) {
+class GalleryFragment : Fragment(R.layout.fragment_gallery),CatPhotoAdapter.OnItemClickListener {
 
     private val viewModel by viewModels<GalleryViewModel>()
     private var _binding: FragmentGalleryBinding? = null
@@ -21,7 +23,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -31,11 +33,14 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
         _binding = FragmentGalleryBinding.bind(view)
 
-        val adapter = CatPhotoAdapter()
+        val adapter = CatPhotoAdapter(this)
 
         binding.apply {
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = adapter
+            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = CatPhotoLoadStateAdapter{adapter.retry()},
+                footer = CatPhotoLoadStateAdapter{adapter.retry()},
+            )
         }
 
         viewModel.photos.observe(viewLifecycleOwner) {
@@ -46,5 +51,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClicked(photo: CatPhoto) {
+        val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
+        findNavController().navigate(action)
     }
 }
