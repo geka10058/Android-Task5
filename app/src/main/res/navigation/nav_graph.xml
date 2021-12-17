@@ -26,8 +26,5 @@
         <argument
             android:name="photo"
             app:argType="com.androidTask5.imagesearchapp.data.CatPhoto" />
-        <action
-            android:id="@+id/action_detailsFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
     </fragment>
 </navigation>

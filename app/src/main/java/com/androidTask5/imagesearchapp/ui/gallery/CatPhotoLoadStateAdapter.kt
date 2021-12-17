@@ -7,7 +7,6 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.androidTask5.imagesearchapp.databinding.CatPhotoLoadStateFooterBinding
-import com.androidTask5.imagesearchapp.databinding.ItemCatPhotoBinding
 
 class CatPhotoLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<CatPhotoLoadStateAdapter.LoadStateViewHolder>() {
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
@@ -36,8 +35,8 @@ class CatPhotoLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter
         fun bind(loadState: LoadState) {
             binding.apply {
                 progressBar.isVisible = loadState is LoadState.Loading
-                buttonRetry.isVisible = loadState !is LoadState.Loading
-                textViewError.isVisible = loadState !is LoadState.Loading
+                buttonRetry.isVisible = loadState is LoadState.Error
+                textViewError.isVisible = loadState is LoadState.Error
             }
         }
     }
